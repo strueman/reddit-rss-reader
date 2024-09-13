@@ -1,6 +1,6 @@
 import pprint
-from datetime import datetime, timedelta
-
+from datetime import datetime, timedelta, timezone
+import 
 import pytz as pytz
 
 from reddit_rss_reader.reader import RedditRSSReader
@@ -12,8 +12,7 @@ reader = RedditRSSReader(
 )
 
 # To consider comments entered in past 5 days only
-since_time = datetime.utcnow().astimezone(pytz.utc) + timedelta(days=-5)
-
+since_time = datetime.now(timezone.utc).astimezone(pytz.utc) + timedelta(days=-5)
 # fetch_content will fetch all contents if no parameters are passed.
 # If `after` is passed then it will fetch contents after this date
 # If `since_id` is passed then it will fetch contents after this id
