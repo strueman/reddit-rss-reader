@@ -57,13 +57,17 @@ class RedditRSSReader:
                 image_alt_texts = [x['alt'] for x in soup.find_all('img', alt=True)]
                 image_alt_texts = image_alt_texts if image_alt_texts else []
 
+                # Strip HTML tags from content and extracted_text
+                content = BeautifulSoup(entry.summary, "html.parser").get_text(strip=True)
+                extracted_text = soup.get_text(strip=True)
+
                 contents.append(
                     RedditContent(
                         link=entry.link,
                         id=entry.id,
                         title=entry.title,
-                        content=entry.summary,
-                        extracted_text=soup.get_text(),
+                        content=content,
+                        extracted_text=extracted_text,
                         image_alt_text=". ".join(image_alt_texts),
                         updated=datetime.fromtimestamp(mktime(entry.updated_parsed)),
                         author_name=entry.author_detail.name,
